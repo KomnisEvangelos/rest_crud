@@ -72,7 +72,7 @@ class CourseService implements CourseServiceInterface
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = this->courseRepository->save($data);
+        $result = $this->courseRepository->save($data);
       
 
         return $result; 
@@ -88,6 +88,7 @@ class CourseService implements CourseServiceInterface
      */
     public function updateCourse(Request $request, $id)
     {
+        
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
@@ -98,7 +99,12 @@ class CourseService implements CourseServiceInterface
         if ($validator->fails()) {
            throw new InvalidArgumentException($validator->errors()->first());
         }
-
+        $data = $request->only([
+            'title',
+            'description',
+            'status',
+            'is_premium',
+        ]);
         DB::beginTransaction();
 
         try {

@@ -64,7 +64,7 @@ class CourseController extends Controller
         $result = ['status' => 200];
 
         try {
-            $result['data'] = this->courseService->createCourse($data);
+            $result['data'] = $this->courseService->createCourse($data);
         } catch (Exception $e) {
            
             $result = [
@@ -77,17 +77,12 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->only([
-            'title',
-            'description',
-            'status',
-            'is_premium',
-        ]);
+       
         
         $result = ['status' => 200];
 
         try {
-            $result['data'] = this->courseService->updateCourse($data, $id);
+            $result['data'] = $this->courseService->updateCourse($request, $id);
         } catch (Exception $e) {
             $result = [
                 'status' => 500,

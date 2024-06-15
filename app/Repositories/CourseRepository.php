@@ -12,45 +12,43 @@ class CourseRepository
     }
 
     public function save($data){
-        $course - new $this->course;
-
-        $course->title = $data['title'];
-        $course->description = $data['description'];
-        $course->status = $data['status'];
-        $course->is_premium = $data['is_premium'];
-
-        $course->save();
-        
-        return $course->fresh();
+        try {
+            $course = $this->course->create($data);
+            return $course->fresh();
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function getAllCourses(){
-       // return $this->course->get();
-        return Course::all();
+        return $this->course->all();
     }
 
     public function getById($id){
-        return $this->course->where('id',$id)->get();
+        try {
+            return $this->course->findOrFail($id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
-    public function update($data,$id){
-        $course = $this->course->find($id);
-
-        $course->title = $data['title'];
-        $course->description = $data['description'];
-        $course->status = $data['status'];
-        $course->is_premium = $data['is_premium'];
-        
-        $course->update();
-
-        return $course;
+    public function update($data, $id){
+        try {
+            $course = $this->course->findOrFail($id);
+            $course->update($data);
+            return $course;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function delete($id){
-        
-        $course = $this->course->find($id);
-        $course->delete();
-
-        return $course;
+        try {
+            $course = $this->course->findOrFail($id);
+            $course->delete();
+            return $course;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
