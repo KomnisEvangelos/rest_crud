@@ -61,7 +61,7 @@ class CourseController extends Controller
             'is_premium',
         ]);
         
-        $result = ['status' => 200];
+        $result = ['status' => 201];
 
         try {
             $result['data'] = $this->courseService->createCourse($data);
